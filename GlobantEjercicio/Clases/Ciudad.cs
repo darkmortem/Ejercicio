@@ -8,11 +8,19 @@ namespace EjercicioGlabant.Clases
 {
     class Ciudad
     {
-        private String ciudadA;
-        private String ciudadB;
+        private string ciudadA;
+        private string ciudadB;
         private int tiempo;
-        private String tipoVia;
-        
+        private string tipoVia;
+
+        Ciudad() {
+
+            ciudadA = "";
+            ciudadB = "";
+            tiempo = 0;
+            tipoVia = "";
+        }
+
 
         public int TiempoGetSet
         {
@@ -20,19 +28,19 @@ namespace EjercicioGlabant.Clases
             set { tiempo = value; }
         }
 
-        public String CiudadAGetSet
+        public string CiudadAGetSet
         {
             get { return ciudadA; }
             set { ciudadA = value; }
         }
 
-        public String CiudadBGetSet
+        public string CiudadBGetSet
         {
             get { return ciudadB; }
             set { ciudadB = value; }
         }
 
-        public String TipoVia
+        public string TipoVia
         {
             get { return tipoVia; }
             set { tipoVia = value; }

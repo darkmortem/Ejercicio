@@ -8,9 +8,35 @@ namespace EjercicioGlabant.Clases
 {
     class Viajes
     {
-        private String tipoVehiculo;
-        private String cantidadPasajeros;
+        private string tipoVehiculo;
+        private int cantidadPasajeros;
+        private string ciudades;
 
-        //holavvvvjjj
+
+        Viajes() {
+
+            tipoVehiculo = "";
+            cantidadPasajeros = 0;
+            ciudades = "";
+        }
+
+        public string TipoVehiculo
+        {
+            get { return tipoVehiculo; }
+            set { tipoVehiculo = value; }
+        }
+
+        public int CantidadPasajeros
+        {
+            get { return cantidadPasajeros; }
+            set { cantidadPasajeros = value; }
+        }
+
+        public string Ciudades
+        {
+            get { return ciudades; }
+            set { ciudades = value; }
+        }
+
     }
 }

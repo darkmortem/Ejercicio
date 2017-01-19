@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EjercicioGlabant.Clases;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -48,7 +49,8 @@ namespace EjercicioGlabant
             }
             else
             {
-
+                Archivo ar = new Archivo();
+                ar.readfile(textBoxCiudad.Text, textBoxViajes.Text);
 
             }
 
