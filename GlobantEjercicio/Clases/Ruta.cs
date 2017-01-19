@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace EjercicioGlabant.Clases
 {
-    class Ciudad
+    public class Ruta
     {
         private string ciudadA;
         private string ciudadB;
         private int tiempo;
         private string tipoVia;
+        
 
-        Ciudad() {
+        public Ruta() {
 
             ciudadA = "";
             ciudadB = "";
@@ -40,11 +41,13 @@ namespace EjercicioGlabant.Clases
             set { ciudadB = value; }
         }
 
-        public string TipoVia
+        public string TipoViaGetSet
         {
             get { return tipoVia; }
             set { tipoVia = value; }
         }
+
+        
 
     }
 }

@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace EjercicioGlabant.Clases
 {
-    class Viajes
+    class Viaje
     {
         private string tipoVehiculo;
         private int cantidadPasajeros;
         private string ciudades;
 
 
-        Viajes() {
+        public Viaje() {
 
             tipoVehiculo = "";
             cantidadPasajeros = 0;
             ciudades = "";
         }
 
-        public string TipoVehiculo
+        public string TipoVehiculoGetSet
         {
             get { return tipoVehiculo; }
             set { tipoVehiculo = value; }
         }
 
-        public int CantidadPasajeros
+        public int CantidadPasajerosGetSet
         {
             get { return cantidadPasajeros; }
             set { cantidadPasajeros = value; }
         }
 
-        public string Ciudades
+        public string CiudadesGetSet
         {
             get { return ciudades; }
             set { ciudades = value; }
