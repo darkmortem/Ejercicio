@@ -12,6 +12,11 @@ using System.Windows.Forms;
 
 namespace EjercicioGlabant.Clases
 {
+    /// <summary>  
+    ///  La clase Archivo se encarga de el procesamiento de los archivos de texto, 
+    ///  y almacenado de la informacion en diferentes colecciones para luego ser
+    ///  procesada.
+    /// </summary>  
     public class Archivo
     {
        Dictionary<string, Ruta> diccionarioCiudad =
@@ -49,6 +54,10 @@ namespace EjercicioGlabant.Clases
         string rutas;
         string ciudades;
 
+        /// <summary>  
+        ///  El metodo readfile recibe las direcciones de los archivos.
+        ///  Y procesa los archivos de texto.
+        /// </summary>  
         public void readfile(string rutaFileCiudades, string rutaFileViajes)
         {
           int numeroDeHilos = 2;

@@ -9,6 +9,10 @@ using System.Windows.Forms;
 
 namespace GlobantEjercicio.Clases
 {
+    /// <summary>  
+    ///  La clase Resultado es donde la información almacenada de las colecciones es
+    ///  procesada. 
+    /// </summary>  
     class Resultado
     {
      
@@ -20,6 +24,10 @@ namespace GlobantEjercicio.Clases
            
         }
 
+        /// <summary>  
+        ///  Imprimir Resultado se encarga de recibir las colecciones y ejecutar el proceso de validacion
+        ///  y extraccion de datos.
+        /// </summary>  
         public void ImprimirResultado(Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje,List<Ciudad> listaCiudad, List<MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte)
         {
 
@@ -30,6 +38,10 @@ namespace GlobantEjercicio.Clases
         
         }
 
+        /// <summary>  
+        ///  El metodo ValidaRuta chequea que la ruta cuente con las condiciones 
+        ///  para poder ser tomada en cuenta para el analisis de los datos.
+        /// </summary>  
         public bool ValidarRuta(Viaje viaje, Dictionary<string, Ruta> diccionarioCiudad,List<Ciudad> listaCiudad,List<MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte)
         {
             Ruta ruta;

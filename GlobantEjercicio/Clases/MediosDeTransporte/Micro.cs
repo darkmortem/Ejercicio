@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GlobantEjercicio.Clases.MediosDeTransporte
 {
+    /// <summary>  
+    ///  La clase Micro describe un tipo de transporte y hereda de la clase medio de transporte.
+    /// </summary> 
     class Micro : MedioDeTransporte
     {
         public Micro(string nombre)

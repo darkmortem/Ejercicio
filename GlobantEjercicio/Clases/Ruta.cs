@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EjercicioGlabant.Clases
 {
+    /// <summary>  
+    ///  La clase Ruta contiene toda la informacion de la ruta, extraidas del archivo de texto.
+    /// </summary>  
     public class Ruta
     {
         private string ciudadA;

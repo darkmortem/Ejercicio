@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GlobantEjercicio.Clases.MediosDeTransporte
 {
+    /// <summary>  
+    ///  La clase MedioDeTransporte describe de manera general los medio de transporte con
+    ///  sus caracteristicas comunes.
+    /// </summary> 
     public abstract class MedioDeTransporte
     {
         private string tipoUnidad;

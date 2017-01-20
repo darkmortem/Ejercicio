@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace EjercicioGlabant.Clases
 {
+    /// <summary>  
+    ///  La clase Viaje contiene toda las caracteristica de un viajes,
+    ///  cuenta con los atributos basicos de un viaje extraido del archivo de texto.
+    /// </summary>  
     class Viaje
     {
         private string tipoVehiculo;

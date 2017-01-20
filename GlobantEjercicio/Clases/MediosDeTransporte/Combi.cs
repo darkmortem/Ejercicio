@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GlobantEjercicio.Clases.MediosDeTransporte
 {
+    /// <summary>  
+    ///  La clase Combi describe un tipo de transporte y hereda de la clase medio de transporte.
+    /// </summary>  
     class Combi : MedioDeTransporte
     {
         public Combi(string nombre)

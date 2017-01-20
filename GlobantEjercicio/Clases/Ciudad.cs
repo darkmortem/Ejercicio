@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace GlobantEjercicio.Clases
 {
-   public class Ciudad
+    /// <summary>  
+    ///  La clase ciudad contiene informacion comun de la ciudad.
+    ///  esta entidad es usada para llevar el numero de turistas
+    ///  que la visita.
+    /// </summary>  
+    public class Ciudad
     {
         private string nombreCiudad;
         private int numeroTuristas;
