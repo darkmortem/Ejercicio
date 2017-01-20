@@ -30,9 +30,10 @@ namespace GlobantEjercicio.Clases
         /// </summary>  
         public void ImprimirResultado(Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje,List<Ciudad> listaCiudad, List<MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte)
         {
-
+                //Se recorre la lista de viajes
                 foreach (var item in listaViaje)
                 { 
+                    //Se valida la ruta para y luego es procesada.
                     ValidarRuta(item, diccionarioCiudad, listaCiudad, listaMedioDeTransporte);
                 }
         
@@ -46,35 +47,28 @@ namespace GlobantEjercicio.Clases
         {
             Ruta ruta;
             Archivo archivo = new Archivo();
-            List<Ciudad> listaTemporalCiudad = new List<Ciudad>();
-            List<MediosDeTransporte.MedioDeTransporte> listaTemporalMT = new List<MediosDeTransporte.MedioDeTransporte>();
+            List<Ciudad> listaTemporalCiudad = new List<Ciudad>(); //lista temporal de ciudad. 
+            List<MediosDeTransporte.MedioDeTransporte> listaTemporalMT = new List<MediosDeTransporte.MedioDeTransporte>(); //lista temporal de medio de transporte.
 
             listaTemporalCiudad = listaCiudad;
             listaTemporalMT = listaMedioDeTransporte; 
 
             lock (SyncRoot)
             {
+                //Extraigo las diferences ciudades del viaje en Char Array. Ejemplo (AB, BC)
                 string[] valores = viaje.CiudadesGetSet.Split(',');      
 
+                // Hago ciclo segun la cantidad de viajes.
                 for(int i = 0; i < valores.Length ; i++ )
                 {
-                      char[] charArray = valores[i].ToString().ToCharArray();
-                      Array.Reverse(charArray);
-                      string invertido = new string(charArray);
+                    char[] charArray = valores[i].ToString().ToCharArray();
+                    Array.Reverse(charArray); //Invierto el viaje AB -> BA ya que las rutas son ida y vuelta.
+                    string invertido = new string(charArray); 
 
+                    //Chequeo si existe esa ruta en el diccionarioCiudad el Key es por ejemplo las rutas posibles.
                     if ((diccionarioCiudad.TryGetValue(valores[i], out ruta)) || (diccionarioCiudad.TryGetValue(invertido, out ruta)))
                     {
-                        string ciudadLlegada = valores[i];
-                        char last = ciudadLlegada[ciudadLlegada.Length - 1];
-                        int index = listaTemporalCiudad.FindIndex(x => x.NombreGetSet == last.ToString());
-
-                        listaTemporalCiudad[index].NumeroTuristasGetSet = listaTemporalCiudad[index].NumeroTuristasGetSet + viaje.CantidadPasajerosGetSet;
-
-                        int indexMT = listaTemporalMT.FindIndex(x => x.TipoUnidadGetSet == viaje.TipoVehiculoGetSet);
-
-                        listaTemporalMT[indexMT].MinutosEnViaje(ruta.TiempoGetSet);
-
-
+                        // Si la ruta cumple con lo permitido por la unidad.
                         switch (viaje.TipoVehiculoGetSet)
                         {
                             case "combi":
@@ -89,7 +83,21 @@ namespace GlobantEjercicio.Clases
                                     return false;
                                 }
                                 break;
-                        }  
+                        }
+
+                        string ciudadLlegada = valores[i];
+                        char last = ciudadLlegada[ciudadLlegada.Length - 1];
+                        int index = listaTemporalCiudad.FindIndex(x => x.NombreGetSet == last.ToString());
+
+                        //Se almacena los valores de cantidad de turistas por ciudad.
+                        listaTemporalCiudad[index].NumeroTuristasGetSet = listaTemporalCiudad[index].NumeroTuristasGetSet + viaje.CantidadPasajerosGetSet;
+
+                        //Se almacena los valores de tiempo del recorrido 
+                        int indexMT = listaTemporalMT.FindIndex(x => x.TipoUnidadGetSet == viaje.TipoVehiculoGetSet);
+
+                        listaTemporalMT[indexMT].MinutosEnViaje(ruta.TiempoGetSet);
+
+                         
                     }
                     else
                     {
@@ -98,16 +106,13 @@ namespace GlobantEjercicio.Clases
 
                 }
 
+                //Si el viaje cumple con los requerimientos se guardan los datos en las listas.
                 archivo.ListaCiudadGetSet = listaTemporalCiudad;
                 archivo.ListaMedioDeTransporteGetSet = listaTemporalMT;
                 return (true);
             }
 
         }
-
-
-      
-        
 
     }
 }

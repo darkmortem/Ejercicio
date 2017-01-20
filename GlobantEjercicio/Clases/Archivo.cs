@@ -25,11 +25,12 @@ namespace EjercicioGlabant.Clases
         List<Viaje> listaViajes = new List<Viaje>();
 
         private List<Ciudad> listaCiudad = new List<Ciudad>();
-
         private List<MedioDeTransporte> listaMedioDeTransporte = new List<MedioDeTransporte>();
-         
 
-       
+        string rutas;
+        string ciudades;
+
+        ///Constructor de la clase
         public Archivo()
         {
             listaMedioDeTransporte.Add(new Combi("combi"));
@@ -48,11 +49,7 @@ namespace EjercicioGlabant.Clases
         {
             get { return listaCiudad; }
             set { listaCiudad = value; }
-        }
-
-
-        string rutas;
-        string ciudades;
+        }    
 
         /// <summary>  
         ///  El metodo readfile recibe las direcciones de los archivos.
@@ -60,20 +57,23 @@ namespace EjercicioGlabant.Clases
         /// </summary>  
         public void readfile(string rutaFileCiudades, string rutaFileViajes)
         {
-          int numeroDeHilos = 2;
+          int numeroDeHilos = 2; // Numero de hilos para procesar el archivo.
 
+          //Inicia el proceso de lectura del archivo ciudades.
           try
           {
              foreach (string linea in File.ReadLines(rutaFileCiudades).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
              {
                
                 // Split de la linea cuando consiga coma ",".
-              
                 string[] valores = linea.Split(',');
 
+                // Se comienza a procesar a partir de char array, la linea leida del archivo.
+
                 ciudades = ciudades +valores[0]+valores[1];
-                
-                Ruta ruta = new Ruta();
+
+                // Se almacena es un objeto Ruta cada linea.
+                Ruta ruta = new Ruta(); 
                 ruta.CiudadAGetSet = valores[0];
                 ruta.CiudadBGetSet = valores[1];
 
@@ -87,6 +87,8 @@ namespace EjercicioGlabant.Clases
                 }
 
                 ruta.TipoViaGetSet = valores[3];
+
+                //Finalizado se almacena el objeto ruta en un diccionario. La clave sera la ruta ejemplo "AB"
                 diccionarioCiudad.Add(ruta.CiudadAGetSet+ruta.CiudadBGetSet, ruta);
          
             }
@@ -95,9 +97,10 @@ namespace EjercicioGlabant.Clases
          {
             throw e;
          }
-
+            // selecciono de las ciudades solo una ocurrencia de cada una.
             string newCiudades = new string(ciudades.ToCharArray().Distinct().ToArray());
 
+            //Genero una lista de las ciudades
             for (int i = 0; i < newCiudades.Length; i++)
             {
                 Ciudad ciudad = new Ciudad();
@@ -107,15 +110,17 @@ namespace EjercicioGlabant.Clases
                 listaCiudad.Add(ciudad);
 
             }
+
+            // Inicia el proceso de lectura del archivo de texto de viajes.
            try
            { 
             foreach (string linea in File.ReadLines(rutaFileViajes).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
             {
-                
+                // Split de la linea cuando consiga coma ",".
                 string[] valores = linea.Split(',');
 
+                // Se comienza a procesar la linea y convertirla en un objeto viaje.
                 Viaje viaje = new Viaje();
-
                 viaje.TipoVehiculoGetSet = valores[0];
               
                 try
@@ -127,6 +132,7 @@ namespace EjercicioGlabant.Clases
                     MessageBox.Show(e.Message);
                 }
 
+                // Se separa las rutas en duplas, A,B,C,D -> AB, BC, CD
                 for(int i = 2; i < valores.Length-1; i++)
                 {
                     int indice = i + 1;
@@ -140,6 +146,7 @@ namespace EjercicioGlabant.Clases
                 viaje.CiudadesGetSet = rutas;
                 rutas = "";
 
+                // Se carga una lista con todos los viajes.
                 listaViajes.Add(viaje);    
             }
 
@@ -149,11 +156,11 @@ namespace EjercicioGlabant.Clases
             throw e;
           }
 
-
+            // Se comienza el procesamiento de la informacion
             Resultado resultado = new Resultado();
-            int half = listaViajes.Count() / 2;
-            var exceptions = new ConcurrentQueue<Exception>();
-
+            int half = listaViajes.Count() / 2; // half busca la mitad de la lista de viajes.
+          
+            //Se divide el procesamiento de la informacion en dos tareas.
             try
             {
                 Parallel.Invoke(() =>
