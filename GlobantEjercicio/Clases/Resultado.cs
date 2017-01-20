@@ -71,14 +71,14 @@ namespace GlobantEjercicio.Clases
                         // Si la ruta cumple con lo permitido por la unidad.
                         switch (viaje.TipoVehiculoGetSet)
                         {
-                            case "combi":
-                                if (ruta.TipoViaGetSet == "calle")
+                            case "COMBI":
+                                if (ruta.TipoViaGetSet == "CALLE")
                                 {
                                     return false;
                                 }
                                 break;
-                            case "micro":
-                                if (ruta.TipoViaGetSet == "autopista" || ruta.TipoViaGetSet == "calle")
+                            case "MICRO":
+                                if (ruta.TipoViaGetSet == "AUTOPISTA" || ruta.TipoViaGetSet == "CALLE")
                                 {
                                     return false;
                                 }

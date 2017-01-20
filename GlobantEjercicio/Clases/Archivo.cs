@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -29,13 +30,13 @@ namespace EjercicioGlabant.Clases
 
         string rutas;
         string ciudades;
-
+        Regex rgx = new Regex("[^a-zA-Z0-9,]"); //validar lineas del archivo texto.
         ///Constructor de la clase
         public Archivo()
         {
-            listaMedioDeTransporte.Add(new Combi("combi"));
-            listaMedioDeTransporte.Add(new Taxi("taxi"));
-            listaMedioDeTransporte.Add(new Micro("micro"));
+            listaMedioDeTransporte.Add(new Combi("COMBI"));
+            listaMedioDeTransporte.Add(new Taxi("TAXI"));
+            listaMedioDeTransporte.Add(new Micro("MICRO"));
         }
 
         public List<MedioDeTransporte> ListaMedioDeTransporteGetSet
@@ -64,9 +65,11 @@ namespace EjercicioGlabant.Clases
           {
              foreach (string linea in File.ReadLines(rutaFileCiudades).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
              {
-               
-                // Split de la linea cuando consiga coma ",".
-                string[] valores = linea.Split(',');
+                   
+                 string lineaSinEspacios = rgx.Replace(linea, "");
+                    
+                 // Split de la linea cuando consiga coma ",".
+                 string[] valores = lineaSinEspacios.ToUpper().Split(',');
 
                 // Se comienza a procesar a partir de char array, la linea leida del archivo.
 
@@ -116,8 +119,11 @@ namespace EjercicioGlabant.Clases
            { 
             foreach (string linea in File.ReadLines(rutaFileViajes).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
             {
+                // Se reemplaza los caracteres especiales y espacios en blanco de la linea.
+                string lineaSinEspacios = rgx.Replace(linea, "");
+
                 // Split de la linea cuando consiga coma ",".
-                string[] valores = linea.Split(',');
+                string[] valores = lineaSinEspacios.ToUpper().Split(',');
 
                 // Se comienza a procesar la linea y convertirla en un objeto viaje.
                 Viaje viaje = new Viaje();
