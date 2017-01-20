@@ -1,9 +1,11 @@
 ﻿using GlobantEjercicio.Clases;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,27 +18,33 @@ namespace EjercicioGlabant.Clases
 
         List<Viaje> listaViajes = new List<Viaje>();
 
+        private List<Ciudad> listaCiudad = new List<Ciudad>();
+       
+        public List<Ciudad> ListaCiudadGetSet
+        {
+            get { return listaCiudad; }
+            set { listaCiudad = value; }
+        }
+
+
         string rutas;
+        string ciudades;
 
         public void readfile(string rutaFileCiudades, string rutaFileViajes)
         {
-           // Parallel.ForEach(File.ReadLines("file.txt"), (line, _, lineNumber) =>
-           // {
-                // your code here
-           // });
+          int numeroDeHilos = 2;
 
-            int numeroDeHilos = 2;
-
-            foreach (string linea in File.ReadLines(rutaFileCiudades).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
-            {
-                MessageBox.Show("\t" + linea);
-                
+          try
+          {
+             foreach (string linea in File.ReadLines(rutaFileCiudades).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
+             {
+               
                 // Split de la linea cuando consiga coma ",".
               
                 string[] valores = linea.Split(',');
-                MessageBox.Show("\t" + valores[0]);
 
-
+                ciudades = ciudades +valores[0]+valores[1];
+                
                 Ruta ruta = new Ruta();
                 ruta.CiudadAGetSet = valores[0];
                 ruta.CiudadBGetSet = valores[1];
@@ -51,26 +59,37 @@ namespace EjercicioGlabant.Clases
                 }
 
                 ruta.TipoViaGetSet = valores[3];
-
                 diccionarioCiudad.Add(ruta.CiudadAGetSet+ruta.CiudadBGetSet, ruta);
          
             }
+         }
+         catch (IOException e)
+         {
+            throw e;
+         }
 
-      
+            string newCiudades = new string(ciudades.ToCharArray().Distinct().ToArray());
 
+            for (int i = 0; i < newCiudades.Length; i++)
+            {
+                Ciudad ciudad = new Ciudad();
+                ciudad.NombreGetSet = newCiudades[i].ToString() ;
+                ciudad.NumeroTuristasGetSet = 0;
+                
+                listaCiudad.Add(ciudad);
+
+            }
+           try
+           { 
             foreach (string linea in File.ReadLines(rutaFileViajes).AsParallel().WithDegreeOfParallelism(numeroDeHilos))
             {
-                MessageBox.Show("\t" + linea);
-
+                
                 string[] valores = linea.Split(',');
-
-                MessageBox.Show("\t" + valores.Length);
 
                 Viaje viaje = new Viaje();
 
                 viaje.TipoVehiculoGetSet = valores[0];
-               
-
+              
                 try
                 {
                     viaje.CantidadPasajerosGetSet = Int32.Parse(valores[1]);
@@ -91,16 +110,42 @@ namespace EjercicioGlabant.Clases
                 }
 
                 viaje.CiudadesGetSet = rutas;
-
-                MessageBox.Show("rutas: " + viaje.CiudadesGetSet);
                 rutas = "";
 
-                listaViajes.Add(viaje);
-             
-                Resultado resultado = new Resultado();
-                resultado.ImprimirResultado(100,diccionarioCiudad,listaViajes);
-
+                listaViajes.Add(viaje);    
             }
+
+          }
+          catch (IOException e)
+          {
+            throw e;
+          }
+
+
+            Resultado resultado = new Resultado();
+            int half = listaViajes.Count() / 2;
+            var exceptions = new ConcurrentQueue<Exception>();
+
+            try
+            {
+                Parallel.Invoke(() =>
+                                {
+                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(0, half+1), listaCiudad);
+                                },  // se cierra la primera acción.
+
+                                () =>
+                                {
+                                int contador = listaViajes.Count- 1 - half;
+                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(half+1, contador), listaCiudad);
+                                } //se cierra la segunda acción.
+                             
+                ); //se cierra el parallel.invoke
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
 
         }
         

@@ -1,4 +1,5 @@
 ﻿using EjercicioGlabant.Clases;
+using GlobantEjercicio.Clases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,7 +51,15 @@ namespace EjercicioGlabant
             else
             {
                 Archivo ar = new Archivo();
+                List<Ciudad> listaCiudad = ar.ListaCiudadGetSet;
                 ar.readfile(textBoxCiudad.Text, textBoxViajes.Text);
+
+                richTextBox1.Text = "";
+
+                foreach (var item in listaCiudad)
+                {
+                    richTextBox1.Text = richTextBox1.Text + item.NombreGetSet +" : " + item.NumeroTuristasGetSet + "\r\n";
+                }
 
             }
 
@@ -59,6 +68,13 @@ namespace EjercicioGlabant
 
 
 
+        }
+
+
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

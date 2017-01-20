@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\Archivo.cs" />
+    <Compile Include="Clases\Ciudad.cs" />
     <Compile Include="Clases\Ruta.cs" />
     <Compile Include="Clases\Resultado.cs" />
     <Compile Include="Clases\Viaje.cs" />

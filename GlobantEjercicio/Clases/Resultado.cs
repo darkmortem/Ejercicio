@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,56 +16,49 @@ namespace GlobantEjercicio.Clases
       private int minutosViajeTaxi;
       public object SyncRoot { get { return this; } }
 
-      private List<Tuple<string, int>> turistasPorCiudad = new List<Tuple<string, int>>();
-
       
-      //  rutaes.Add(9);
-
         public Resultado()
         {
             minutosViajeCombi = 0;
             minutosViajeMicro = 0;
             minutosViajeTaxi = 0;
-
-            turistasPorCiudad.Add(Tuple.Create("A", 29));
-            turistasPorCiudad.Add(Tuple.Create("B", 31));
-
         }
 
-        public void ImprimirResultado(int index, Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje) {
-
-
-            lock (SyncRoot)
-            {
-                for (int i = index; i < listaViaje.Count - 1; i++)
-                {
-                 
-                    ValidarRuta(listaViaje[i],diccionarioCiudad);
-
-                }
-               
-            }
-
-            MessageBox.Show("\t" + turistasPorCiudad[0].Item1 + " // " + turistasPorCiudad[1].Item2);
-
-        }
-
-        public bool ValidarRuta(Viaje viaje, Dictionary<string, Ruta> diccionarioCiudad)
+        public void ImprimirResultado(Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje,List<Ciudad> listaCiudad)
         {
-            Ruta ruta; 
+
+                foreach (var item in listaViaje)
+                { 
+                    ValidarRuta(item, diccionarioCiudad, listaCiudad);
+                }
+        
+        }
+
+        public bool ValidarRuta(Viaje viaje, Dictionary<string, Ruta> diccionarioCiudad,List<Ciudad> listaCiudad)
+        {
+            Ruta ruta;
+            Archivo archivo = new Archivo();
+            List<Ciudad> listaTemporalCiudad = new List<Ciudad>();
+            listaTemporalCiudad = listaCiudad;
 
             lock (SyncRoot)
             {
                 string[] valores = viaje.CiudadesGetSet.Split(',');      
 
-                for(int i = 0; i < valores.Length-1 ; i++ )
+                for(int i = 0; i < valores.Length ; i++ )
                 {
-                      char[] charArray = valores[0].ToString().ToCharArray();
+                      char[] charArray = valores[i].ToString().ToCharArray();
                       Array.Reverse(charArray);
-                      string invertido = charArray.ToString();
+                      string invertido = new string(charArray);
 
-                    if ((diccionarioCiudad.TryGetValue(valores[0], out ruta)) || (diccionarioCiudad.TryGetValue(valores[0], out ruta)))
+                    if ((diccionarioCiudad.TryGetValue(valores[i], out ruta)) || (diccionarioCiudad.TryGetValue(invertido, out ruta)))
                     {
+                        string ciudadLlegada = valores[i];
+                        char last = ciudadLlegada[ciudadLlegada.Length - 1];
+                        int index = listaTemporalCiudad.FindIndex(x => x.NombreGetSet == last.ToString());
+
+                        listaTemporalCiudad[index].NumeroTuristasGetSet = listaTemporalCiudad[index].NumeroTuristasGetSet + viaje.CantidadPasajerosGetSet;
+
                         switch (viaje.TipoVehiculoGetSet)
                         {
                             case "combi":
@@ -79,6 +73,7 @@ namespace GlobantEjercicio.Clases
                                     return false;
                                 }
                                 break;
+
                         }
 
                         
@@ -89,11 +84,15 @@ namespace GlobantEjercicio.Clases
                     }
 
                 }
-                
+
+                archivo.ListaCiudadGetSet = listaTemporalCiudad;
                 return (true);
             }
 
         }
+
+
+      
         public int MinutosViajeCombi
         {
             get { return minutosViajeCombi; }
@@ -110,12 +109,6 @@ namespace GlobantEjercicio.Clases
         {
             get { return minutosViajeTaxi; }
             set { minutosViajeTaxi = value; }
-        }
-
-        public List<Tuple<string, int>> TuristasCiudad
-        {
-            get { return turistasPorCiudad; }
-            set { turistasPorCiudad = value; }
         }
 
     }

@@ -33,6 +33,10 @@
             this.labelViajes = new System.Windows.Forms.Label();
             this.textBoxCiudad = new System.Windows.Forms.TextBox();
             this.textBoxViajes = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonEjecutar
@@ -79,11 +83,42 @@
             this.textBoxViajes.TabIndex = 4;
             this.textBoxViajes.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Location = new System.Drawing.Point(36, 221);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(406, 188);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Resultados";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(23, 49);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextBox1.Size = new System.Drawing.Size(124, 112);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(142, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Cantidad Turistas por ciudad";
+            // 
             // Formulario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 289);
+            this.ClientSize = new System.Drawing.Size(560, 421);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBoxViajes);
             this.Controls.Add(this.textBoxCiudad);
             this.Controls.Add(this.labelViajes);
@@ -91,6 +126,8 @@
             this.Controls.Add(this.buttonEjecutar);
             this.Name = "Formulario";
             this.Text = "Formulario";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,6 +140,9 @@
         private System.Windows.Forms.Label labelViajes;
         private System.Windows.Forms.TextBox textBoxCiudad;
         private System.Windows.Forms.TextBox textBoxViajes;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 
