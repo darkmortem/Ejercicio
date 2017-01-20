@@ -11,35 +11,34 @@ namespace GlobantEjercicio.Clases
 {
     class Resultado
     {
-      private int minutosViajeCombi;
-      private int minutosViajeMicro;
-      private int minutosViajeTaxi;
+     
       public object SyncRoot { get { return this; } }
 
       
         public Resultado()
         {
-            minutosViajeCombi = 0;
-            minutosViajeMicro = 0;
-            minutosViajeTaxi = 0;
+           
         }
 
-        public void ImprimirResultado(Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje,List<Ciudad> listaCiudad)
+        public void ImprimirResultado(Dictionary<string,Ruta> diccionarioCiudad ,List<Viaje> listaViaje,List<Ciudad> listaCiudad, List<MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte)
         {
 
                 foreach (var item in listaViaje)
                 { 
-                    ValidarRuta(item, diccionarioCiudad, listaCiudad);
+                    ValidarRuta(item, diccionarioCiudad, listaCiudad, listaMedioDeTransporte);
                 }
         
         }
 
-        public bool ValidarRuta(Viaje viaje, Dictionary<string, Ruta> diccionarioCiudad,List<Ciudad> listaCiudad)
+        public bool ValidarRuta(Viaje viaje, Dictionary<string, Ruta> diccionarioCiudad,List<Ciudad> listaCiudad,List<MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte)
         {
             Ruta ruta;
             Archivo archivo = new Archivo();
             List<Ciudad> listaTemporalCiudad = new List<Ciudad>();
+            List<MediosDeTransporte.MedioDeTransporte> listaTemporalMT = new List<MediosDeTransporte.MedioDeTransporte>();
+
             listaTemporalCiudad = listaCiudad;
+            listaTemporalMT = listaMedioDeTransporte; 
 
             lock (SyncRoot)
             {
@@ -59,6 +58,11 @@ namespace GlobantEjercicio.Clases
 
                         listaTemporalCiudad[index].NumeroTuristasGetSet = listaTemporalCiudad[index].NumeroTuristasGetSet + viaje.CantidadPasajerosGetSet;
 
+                        int indexMT = listaTemporalMT.FindIndex(x => x.TipoUnidadGetSet == viaje.TipoVehiculoGetSet);
+
+                        listaTemporalMT[indexMT].MinutosEnViaje(ruta.TiempoGetSet);
+
+
                         switch (viaje.TipoVehiculoGetSet)
                         {
                             case "combi":
@@ -73,10 +77,7 @@ namespace GlobantEjercicio.Clases
                                     return false;
                                 }
                                 break;
-
-                        }
-
-                        
+                        }  
                     }
                     else
                     {
@@ -86,6 +87,7 @@ namespace GlobantEjercicio.Clases
                 }
 
                 archivo.ListaCiudadGetSet = listaTemporalCiudad;
+                archivo.ListaMedioDeTransporteGetSet = listaTemporalMT;
                 return (true);
             }
 
@@ -93,23 +95,7 @@ namespace GlobantEjercicio.Clases
 
 
       
-        public int MinutosViajeCombi
-        {
-            get { return minutosViajeCombi; }
-            set { minutosViajeCombi = value; }
-        }
-
-        public int MinutosViajeMicro
-        {
-            get { return minutosViajeMicro; }
-            set { minutosViajeTaxi = value; }
-        }
-
-        public int MinutosViajeTaxi
-        {
-            get { return minutosViajeTaxi; }
-            set { minutosViajeTaxi = value; }
-        }
+        
 
     }
 }

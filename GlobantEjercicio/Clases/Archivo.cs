@@ -1,4 +1,5 @@
 ﻿using GlobantEjercicio.Clases;
+using GlobantEjercicio.Clases.MediosDeTransporte;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,7 +20,25 @@ namespace EjercicioGlabant.Clases
         List<Viaje> listaViajes = new List<Viaje>();
 
         private List<Ciudad> listaCiudad = new List<Ciudad>();
+
+        private List<MedioDeTransporte> listaMedioDeTransporte = new List<MedioDeTransporte>();
+         
+
        
+        public Archivo()
+        {
+            listaMedioDeTransporte.Add(new Combi("combi"));
+            listaMedioDeTransporte.Add(new Taxi("taxi"));
+            listaMedioDeTransporte.Add(new Micro("micro"));
+        }
+
+        public List<MedioDeTransporte> ListaMedioDeTransporteGetSet
+        {
+            get { return listaMedioDeTransporte; }
+            set { listaMedioDeTransporte = value; }
+        }
+
+
         public List<Ciudad> ListaCiudadGetSet
         {
             get { return listaCiudad; }
@@ -130,13 +149,13 @@ namespace EjercicioGlabant.Clases
             {
                 Parallel.Invoke(() =>
                                 {
-                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(0, half+1), listaCiudad);
+                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(0, half+1), listaCiudad, listaMedioDeTransporte);
                                 },  // se cierra la primera acción.
 
                                 () =>
                                 {
                                 int contador = listaViajes.Count- 1 - half;
-                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(half+1, contador), listaCiudad);
+                                    resultado.ImprimirResultado(diccionarioCiudad, listaViajes.GetRange(half+1, contador), listaCiudad, listaMedioDeTransporte);
                                 } //se cierra la segunda acción.
                              
                 ); //se cierra el parallel.invoke

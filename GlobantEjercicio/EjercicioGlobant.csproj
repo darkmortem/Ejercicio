@@ -47,7 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\Archivo.cs" />
+    <Compile Include="Clases\MediosDeTransporte\MedioDeTransporte.cs" />
+    <Compile Include="Clases\MediosDeTransporte\Micro.cs" />
+    <Compile Include="Clases\MediosDeTransporte\Taxi.cs" />
     <Compile Include="Clases\Ciudad.cs" />
+    <Compile Include="Clases\MediosDeTransporte\Combi.cs" />
     <Compile Include="Clases\Ruta.cs" />
     <Compile Include="Clases\Resultado.cs" />
     <Compile Include="Clases\Viaje.cs" />

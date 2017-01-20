@@ -52,13 +52,20 @@ namespace EjercicioGlabant
             {
                 Archivo ar = new Archivo();
                 List<Ciudad> listaCiudad = ar.ListaCiudadGetSet;
+                List<GlobantEjercicio.Clases.MediosDeTransporte.MedioDeTransporte> listaMedioDeTransporte = ar.ListaMedioDeTransporteGetSet;
                 ar.readfile(textBoxCiudad.Text, textBoxViajes.Text);
 
                 richTextBox1.Text = "";
+                richTextBox2.Text = "";
 
                 foreach (var item in listaCiudad)
                 {
                     richTextBox1.Text = richTextBox1.Text + item.NombreGetSet +" : " + item.NumeroTuristasGetSet + "\r\n";
+                }
+
+                foreach (var item in listaMedioDeTransporte)
+                {
+                    richTextBox2.Text = richTextBox2.Text + item.TipoUnidadGetSet + " : " + item.MinutosTotal +" MIN " + "\r\n";
                 }
 
             }
