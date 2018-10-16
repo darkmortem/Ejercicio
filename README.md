@@ -1,5 +1,4 @@
-# GlobantEjercicio
-Ejercicio Para Globant
+Ejercicio
 
 Reciba como argumentos: la ruta de archivo de ciudades, la ruta de archivo de viajes
 El archivo de ciudades contiene un listado de ciudades y sus conexiones en texto plano de la siguiente forma:
